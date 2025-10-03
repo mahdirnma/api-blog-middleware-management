@@ -12,4 +12,11 @@ class CategoryService
             return Category::where('is_active',1)->get();
         });
     }
+
+    public function setCategory($request)
+    {
+        return app(TryService::class)(function () use ($request){
+            return Category::create($request->all());
+        });
+    }
 }

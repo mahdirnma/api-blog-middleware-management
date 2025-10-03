@@ -23,7 +23,6 @@ class ApiResponseService
     {
         $body=[];
         $this->message!=null && $body['message']=$this->message;
-        $this->code!=null && $body['code']=$this->code;
         $this->data!=null && $body['data']=$this->data;
         return response()->json($body,$this->code);
     }

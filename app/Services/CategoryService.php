@@ -19,4 +19,11 @@ class CategoryService
             return Category::create($request->all());
         });
     }
+
+    public function showCategory($category)
+    {
+        return app(TryService::class)(function () use ($category){
+            return $category;
+        });
+    }
 }

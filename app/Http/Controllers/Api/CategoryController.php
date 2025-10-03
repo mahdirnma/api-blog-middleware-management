@@ -36,7 +36,11 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        $result=$this->service->showCategory($category);
+        $actionResult=$result->success?
+            (new ApiResponseBuilder())->message('Category received successfully'):
+            (new ApiResponseBuilder())->message('Category received successfully fail.');
+        return $actionResult->data($result->data)->response();
     }
 
     /**

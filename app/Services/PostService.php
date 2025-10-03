@@ -19,4 +19,11 @@ class PostService
             return Post::create($request->all());
         });
     }
+
+    public function getPost($post)
+    {
+        return app(TryService::class)(function () use ($post){
+            return $post;
+        });
+    }
 }

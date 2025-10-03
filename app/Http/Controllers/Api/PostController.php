@@ -53,7 +53,11 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $result = $this->service->updatePost($request, $post);
+        $actionResult = $result->success ?
+            (new ApiResponseBuilder())->message('Post updated successfully.') :
+            (new ApiResponseBuilder())->message('Post update failed.');
+        return $actionResult->data($result->data)->response();
     }
 
     /**

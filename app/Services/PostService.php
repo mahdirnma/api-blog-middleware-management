@@ -26,4 +26,12 @@ class PostService
             return $post;
         });
     }
+
+    public function updatePost($request, $post)
+    {
+        return app(TryService::class)(function () use ($request, $post){
+            $post->update($request->all());
+            return $post;
+        });
+    }
 }

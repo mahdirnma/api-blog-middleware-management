@@ -4,16 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Services\ApiResponseBuilder;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(public CategoryService $service){}
+
     public function index()
     {
-        //
+        $results = $this->service->getCategories();
+        return (new ApiResponseBuilder())->data($results->data)->response();
     }
 
     /**

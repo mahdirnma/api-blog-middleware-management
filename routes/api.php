@@ -8,8 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('categories',CategoryController::class);
-    Route::apiResource('tags',TagController::class);
-    Route::apiResource('posts',PostController::class);
+    Route::middleware('isWriter')->group(function () {
+        Route::apiResource('posts',PostController::class)->only(['store', 'update']);
+    });
+    Route::middleware('isAdmin')->group(function () {
+        Route::apiResource('categories',CategoryController::class);
+        Route::apiResource('tags',TagController::class);
+        Route::apiResource('posts',PostController::class)->except(['store', 'update']);
+    });
 });
 Route::post('/auth',LoginController::class)->name('login');

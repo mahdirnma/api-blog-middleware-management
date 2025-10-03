@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTagRequest;
+use App\Http\Requests\UpdateTagRequest;
 use App\Models\Tag;
 use App\Services\ApiResponseBuilder;
 use App\Services\TagService;
@@ -50,9 +51,13 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tag $tag)
+    public function update(UpdateTagRequest $request, Tag $tag)
     {
-        //
+        $result=$this->service->updateTag($request, $tag);
+        $actionResult=$result->success?
+            (new ApiResponseBuilder())->message('tag updated successfully'):
+            (new ApiResponseBuilder())->message('tag not updated successfully');
+        return $actionResult->data($result->data)->response();
     }
 
     /**

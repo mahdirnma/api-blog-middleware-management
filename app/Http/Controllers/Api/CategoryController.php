@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use App\Services\ApiResponseBuilder;
 use App\Services\CategoryService;
@@ -46,9 +47,13 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $result=$this->service->updateCategory($request, $category);
+        $actionResult=$result->success?
+            (new ApiResponseBuilder())->message('Category updated successfully.'):
+            (new ApiResponseBuilder())->message('Category updated successfully fail.');
+        return $actionResult->data($result->data)->response();
     }
 
     /**

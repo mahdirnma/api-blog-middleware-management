@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTagRequest;
 use App\Models\Tag;
+use App\Services\ApiResponseBuilder;
+use App\Services\TagService;
+use App\Services\TryService;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -11,17 +15,24 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct(public TagService $service){}
+
     public function index()
     {
-        //
+        $result=$this->service->getTags();
+        return (new ApiResponseBuilder())->data($result->data)->response();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTagRequest $request)
     {
-        //
+        $result=$this->service->setTags($request);
+        $actionResult=$result->success?
+            (new ApiResponseBuilder())->message('tag added successfully'):
+            (new ApiResponseBuilder())->message('tag not added successfully');
+        return $actionResult->data($result->data)->response();
     }
 
     /**
@@ -29,7 +40,11 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        //
+        $result=$this->service->showTag($tag);
+        $actionResult=$result->success?
+            (new ApiResponseBuilder())->message('tag received successfully'):
+            (new ApiResponseBuilder())->message('tag not received successfully');
+        return $actionResult->data($result->data)->response();
     }
 
     /**
